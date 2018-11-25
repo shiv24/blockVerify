@@ -21,7 +21,7 @@ var bytecode = cjson['bytecode'];
 const contract = web3.eth.contract(abi);
 const contractInstance = contract.at(credentials.address);
 
-module.exports = {
+const contractFunctions = {
   createItem(addressTo, uid, name, description) {
     return contractInstance.mint(addressTo, uid, name,
       description, {
@@ -50,8 +50,17 @@ module.exports = {
     }
   },
 
+  transferItem(addressFrom, addressTo, uid) {
+    console.log(addressFrom, addressTo, uid)
+    return contractInstance.safeTransferFrom(addressFrom, addressTo, uid);
+  },
+
   address: credentials.address,
 };
+
+// console.log(contractFunctions.transferItem('0xdf27ca165ce04bae58678fb142915ff592316f30', '0xD065b9D4448495F049916262df190C7517cBBec7', 1))
+
+module.exports = contractFunctions;
 
 //mintToken(0x85e11424F055d2322f0F57493B51082aFB70BfeA, 11, "yoooo",
 //"Hello");
