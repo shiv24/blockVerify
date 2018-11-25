@@ -1,0 +1,21 @@
+{
+  "name": "project",
+  "version": "0.0.0",
+  "description": "",
+  "author": "chashmeetsingh <chashmeetsingh@gmail.com>",
+  "main": "functions/__main__.js",
+  "dependencies": {
+    "lib": "^3.0.2",
+    "mongoose": "^5.3.13"
+  },
+  "private": true,
+  "stdlib": {
+    "build": "faaslang",
+    "name": "chashmeetsingh/project",
+    "timeout": 10000,
+    "personalize": {
+      "keys": [],
+      "user": []
+    }
+  }
+}
