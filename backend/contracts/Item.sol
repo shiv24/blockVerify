@@ -15,6 +15,7 @@ contract Item is ERC721 {
 
    struct Descript {
        uint uid;
+       string name;
        string description;
        uint time;
    }
@@ -22,15 +23,15 @@ contract Item is ERC721 {
    mapping(uint => Descript) itemInfo;
 
    //Associate the barcode with the product
-   function mint(address _to, uint uid, string description) public payable {
+   function mint(address _to, uint uid, string name, string description) public payable {
        require(msg.sender == owner);
-       Descript memory _itemDescription = Descript(uid, description, now);
+       Descript memory _itemDescription = Descript(uid,name,description, now);
        itemInfo[uid] = _itemDescription;
        _mint(_to,uid);
    }
    //This function is for the user to verify the information about the product
-   function returnInformation(uint uid) public view returns(uint, string, uint){
+   function returnInformation(uint uid) public view returns(uint, string,string, uint){
        var itemToReturn = itemInfo[uid];
-       return (itemToReturn.uid, itemToReturn.description, itemToReturn.time);
+       return (itemToReturn.uid, itemToReturn.name, itemToReturn.description, itemToReturn.time);
    }
 }
