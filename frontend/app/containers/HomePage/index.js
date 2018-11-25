@@ -11,15 +11,19 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import Typography from '@material-ui/core/Typography';
+
 import messages from './messages';
 
 /* eslint-disable react/prefer-stateless-function */
 export default class HomePage extends React.PureComponent {
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <Typography variant="h6" color="inherit" noWrap>
+          <FormattedMessage {...messages.heading} />
+        </Typography>
+      </div>
     );
   }
 }
