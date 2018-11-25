@@ -26,6 +26,15 @@ const GlobalStyle = createGlobalStyle`
     font-family: Georgia, Times, 'Times New Roman', serif;
     line-height: 1.5em;
   }
+
+  @keyframes wiggle {
+    0% {transform: rotate(0deg);}
+    10% {transform: rotate(-20deg);}
+    20% {transform: rotate(0deg);}
+    30% {transform: rotate(-20deg);}
+    40% {transform: rotate(-10deg);}
+    100% {transform: rotate(-10deg);}
+  }
 `;
 
 export default GlobalStyle;
