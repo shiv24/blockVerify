@@ -87,7 +87,7 @@ export class CreateItemPage extends React.Component {
       transaction: null,
     });
     try {
-      const result = blockchainFunctions.createItem(blockchainFunctions.contractAddress, Number(uid), name, description);
+      const result = blockchainFunctions.createItem(blockchainFunctions.address, Number(uid), name, description);
       console.log('blockchainFunctions.createItem', result);
       this.setState({
         success: true,
