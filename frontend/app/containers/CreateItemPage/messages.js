@@ -47,6 +47,10 @@ export default defineMessages({
   },
   successHeading: {
     id: `${scope}.successHeading`,
-    defaultMessage: 'Registration Successful',
+    defaultMessage: 'Success',
+  },
+  successDescription: {
+    id: `${scope}.successDescription`,
+    defaultMessage: 'Item has been added onto the Ethereum blockchain.',
   },
 });

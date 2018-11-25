@@ -253,6 +253,12 @@ export class CreateItemPage extends React.Component {
           </Typography>
 
           <p
+            style={{ overflowWrap: 'break-word' }}
+          >
+            <FormattedMessage {...messages.successDescription} />
+          </p>
+
+          <p
             className={classes.textSuccess}
             style={{ overflowWrap: 'break-word' }}
           >
