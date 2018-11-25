@@ -4,9 +4,22 @@ var mongoose = require('mongoose');
 let cache = null;
 
 const async = require('async')
+var Schema = mongoose.Schema;
+var manufacturerSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  public_token: {
+    type: String,
+    required: true
+  },
+  address: String,
+  logo: String
+});
 
 /**
-* @returns {array}
+* @returns {object}
 */
 module.exports = (context, callback) => {
 
@@ -16,24 +29,24 @@ module.exports = (context, callback) => {
   mongoose.Promise = global.Promise;
   var db = mongoose.connection;
 
-  var Schema = mongoose.Schema;
 
-  var manufacturerSchema = new Schema({
-    name: {
-      type: String,
-      required: true
-    },
-    public_token: {
-      type: String,
-      required: true
-    }
-  });
+
+  
 
   var Manufacturer = mongoose.model('Manufacturer', manufacturerSchema);
 
-  Manufacturer.find({}, function(error, data) {
-    console.log(data); //Display the comments returned by MongoDB, if any were found. Executes after the query is complete.
-    return callback(null, JSON.parse(JSON.stringify(data)));
+  Manufacturer.find({public_token: context.params.public_token}, function(error, data) {
+    if (data.length > 0) {
+      return callback(null, {
+        data: JSON.parse(JSON.stringify(data[0]))
+      })
+    } else {
+      return callback(null, {
+        data: null
+      })
+    }
+    // console.log(data); //Display the comments returned by MongoDB, if any were found. Executes after the query is complete.
+    // return callback(null, JSON.parse(JSON.stringify(data)));
   });
 
   // let uri = process.env['MONGO_URI'];

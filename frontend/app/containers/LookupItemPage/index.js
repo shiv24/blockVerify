@@ -16,6 +16,7 @@ import Typography from '@material-ui/core/Typography';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
 import UnverifiedIcon from '@material-ui/icons/ReportProblem';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import EarthJS from 'earthjs'
 
 import messages from './messages';
 
@@ -154,6 +155,22 @@ export class LookupItemPage extends React.Component {
       qrcodeShowStatus,
     } = this.state;
     const isScanning = !item;
+
+    // const g = EarthJS()
+    // .register(earthjs.plugins.inertiaPlugin())
+    // .register(earthjs.plugins.clickCanvas())
+    // .register(earthjs.plugins.threejsPlugin())
+    // .register(earthjs.plugins.autorotatePlugin())
+    // .register(earthjs.plugins.dropShadowSvg())
+    // .register(earthjs.plugins.globeThreejs('world_1.jpg'))
+    // .register(earthjs.plugins.worldThreejs('world-110m.json'))
+    // .register(earthjs.plugins.flightLineThreejs('flights.json','point3.png'))
+    // g.inertiaPlugin.selectAll('#three-js')
+
+    // const g = earthjs()
+    // .register(earthjs.plugins.graticuleSimple())
+    // .create();
+
     return (
       <div className={classes.container}>
         <Helmet>
@@ -242,6 +259,10 @@ export class LookupItemPage extends React.Component {
                     verified.
                   </p>
                 )}
+
+                <p className={classes.textContainer}>
+                  {item.description}
+                </p>
 
                 <p className={classes.textContainer}>
                   {item.description}

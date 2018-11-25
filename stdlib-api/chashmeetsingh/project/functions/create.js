@@ -16,7 +16,9 @@ var manufacturerSchema = new Schema({
   public_token: {
     type: String,
     required: true
-  }
+  },
+  address: String,
+  logo: String
 });
 
 /**
@@ -25,9 +27,14 @@ var manufacturerSchema = new Schema({
 module.exports = (context, callback) => {
   let name = context.params.name || '';
   let public_token = context.params.public_token;
+  let address = context.params.address || '';
+  let logo = context.params.address || '';
+
   let manufacturer = {
     name: name,
-    public_token: public_token
+    public_token: public_token,
+    address: address,
+    logo: logo
   };
 
   let uri = process.env['MONGO_URI'];
@@ -39,25 +46,6 @@ module.exports = (context, callback) => {
   createmanufacturer(db, manufacturer, callback);
 
   db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-
-
-  // try {
-  //   if (cache === null) {
-  //     MongoClient.connect(uri, (error, db) => {
-  //       if (error) {
-  //         console.log(error['errors']);
-  //         return callback(error);
-  //       }
-  //       cache = db;
-  //       createmanufacturer(db, manufacturer, callback);
-  //     });
-  //   } else {
-  //     createmanufacturer(cache, manufacturer, callback);
-  //   }
-  // } catch (error) {
-  //   console.log(error);
-  //   return callback(error);
-  // }
 };
 
 const createmanufacturer = (db, manufacturer, callback) => {
