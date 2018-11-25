@@ -268,10 +268,6 @@ export class LookupItemPage extends React.Component {
                 <p className={classes.textContainer}>
                   {item.description}
                 </p>
-
-                <p className={classes.textContainer}>
-                  {item.description}
-                </p>
               </div>
             )}
 
