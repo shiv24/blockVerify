@@ -6,6 +6,19 @@ var mongoose = require('mongoose');
 
 let cache = null;
 
+var Schema = mongoose.Schema;
+
+var manufacturerSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  public_token: {
+    type: String,
+    required: true
+  }
+});
+
 // const utils = lib.utils({
 //   service: 'manufacturer'
 // });
@@ -22,18 +35,7 @@ module.exports = (public_token, context, callback) => {
   mongoose.Promise = global.Promise;
   var db = mongoose.connection;
 
-  var Schema = mongoose.Schema;
-
-  var manufacturerSchema = new Schema({
-    name: {
-      type: String,
-      required: true
-    },
-    public_token: {
-      type: String,
-      required: true
-    }
-  });
+  
 
   const Manufacturer = mongoose.model('Manufacturer', manufacturerSchema);
   var manu = Manufacturer
