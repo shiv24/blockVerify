@@ -1,8 +1,8 @@
 const Web3 = require('web3');
-const Solc = require('solc');
+// // const Solc = require('solc');
 var cjson = require('./build/contracts/Item.json');
-const fs = require('fs');
-var contractAddress = '0x5b6f4c1fc9d44f4e4fb4625a450f39f0c6093960';
+// const fs = require('fs');
+var contractAddress = '0xd47b1ce6fb238a25bd863b719c5bdc17bc7a47fb';
 var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
 
 if (typeof web3 !== 'undefined') {
@@ -13,7 +13,7 @@ if (typeof web3 !== 'undefined') {
 }
 
 
-var compiledContract = Solc.compile(fs.readFileSync('./contracts/Item.sol').toString());
+// var compiledContract = Solc.compile(fs.readFileSync('./contracts/Item.sol').toString());
 var abi = cjson['abi'];
 var bytecode = cjson['bytecode'];
 
@@ -21,22 +21,39 @@ var bytecode = cjson['bytecode'];
 const contract = web3.eth.contract(abi);
 const contractInstance = contract.at(contractAddress);
 
-function mintToken(addressTo, uid, name, description) {
-  console.log(contractInstance.mint(addressTo, uid, name,
-    description, {
-      from: web3.eth.accounts[0],
-      gas: 3000000
-    }));
-}
+module.exports = {
+  createItem(addressTo, uid, name, description) {
+    return contractInstance.mint(addressTo, uid, name,
+      description, {
+        from: web3.eth.accounts[0],
+        gas: 3000000
+      });
+  },
+
+  getItemById(uid) {
+    const [
+      uidRet,
+      name,
+      description,
+      timestamp,
+    ] = contractInstance.returnInformation(uid);
+    if (uidRet.toString() === "0") {
+      return null;
+    } else {
+      return {
+        uid: uidRet,
+        name,
+        description,
+        timestamp,
+      };
+    }
+  },
+
+  contractAddress,
+};
 
 //mintToken(0x85e11424F055d2322f0F57493B51082aFB70BfeA, 11, "yoooo",
 //"Hello");
-
-
-
-function getInfoById(id) {
-  console.log(contractInstance.returnInformation(id));
-}
 
 // function mint(address _to, uint uid, string name, string description) public payable {
 //        require(msg.sender == owner);
