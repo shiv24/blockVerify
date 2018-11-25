@@ -2,7 +2,7 @@ const Web3 = require('web3');
 // // const Solc = require('solc');
 var cjson = require('./build/contracts/Item.json');
 // const fs = require('fs');
-var contractAddress = '0xd47b1ce6fb238a25bd863b719c5bdc17bc7a47fb';
+var credentials = require('./credentials.json');
 var web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:7545'));
 
 if (typeof web3 !== 'undefined') {
@@ -17,9 +17,9 @@ if (typeof web3 !== 'undefined') {
 var abi = cjson['abi'];
 var bytecode = cjson['bytecode'];
 
-// var contract = new web3.eth.contract(abi, contractAddress);
+// var contract = new web3.eth.contract(abi, credentials.address);
 const contract = web3.eth.contract(abi);
-const contractInstance = contract.at(contractAddress);
+const contractInstance = contract.at(credentials.address);
 
 module.exports = {
   createItem(addressTo, uid, name, description) {
@@ -45,11 +45,12 @@ module.exports = {
         name,
         description,
         timestamp,
+        owner: contractInstance.ownerOf(uidRet),
       };
     }
   },
 
-  contractAddress,
+  address: credentials.address,
 };
 
 //mintToken(0x85e11424F055d2322f0F57493B51082aFB70BfeA, 11, "yoooo",
