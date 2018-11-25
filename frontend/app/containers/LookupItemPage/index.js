@@ -112,7 +112,6 @@ export class LookupItemPage extends React.Component {
         return;
       }
 
-      // setTimeout(() => {
       fetch('https://chashmeetsingh.lib.id/project@release/read/?public_token=' + item.owner)
         .then((res) => res.json())
         .then((body) => {
@@ -145,7 +144,6 @@ export class LookupItemPage extends React.Component {
             }, 400);
           }, 1200);
         });
-      // }, 1500);
     }
   }
 

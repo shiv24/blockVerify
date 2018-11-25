@@ -6,6 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -13,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
+import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import messages from './messages';
 
@@ -78,13 +79,21 @@ const styles = theme => ({
 });
 
 function Navigation(props) {
-  const { classes } = props;
+  const {
+    classes,
+    history,
+  } = props;
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-            <MenuIcon />
+          <IconButton
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="Home"
+            onClick={() => { history.push('/') }}
+          >
+            <HomeIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" color="inherit" noWrap>
             <FormattedMessage {...messages.title} />
@@ -112,4 +121,4 @@ Navigation.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Navigation);
+export default withRouter(withStyles(styles)(Navigation));
