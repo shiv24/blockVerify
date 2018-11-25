@@ -17,7 +17,7 @@ import VerifiedIcon from '@material-ui/icons/CheckCircle';
 import UnverifiedIcon from '@material-ui/icons/ReportProblem';
 import blockchainFunctions from '../../../../backend/index';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import EarthJS from 'earthjs'
+// import EarthJS from 'earthjs'
 
 import messages from './messages';
 
