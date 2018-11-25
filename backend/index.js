@@ -3,7 +3,7 @@ const Web3 = require('web3');
 var cjson = require('./build/contracts/Item.json');
 // const fs = require('fs');
 var credentials = require('./credentials.json');
-var web3 = new Web3(new Web3.providers.HttpProvider(credentials.host));
+var web3 = new Web3(new Web3.providers.HttpProvider(credentials.url));
 
 if (typeof web3 !== 'undefined') {
   web3 = new Web3(web3.currentProvider);
