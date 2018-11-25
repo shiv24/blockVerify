@@ -15,6 +15,7 @@ import { withStyles } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import VerifiedIcon from '@material-ui/icons/CheckCircle';
 import UnverifiedIcon from '@material-ui/icons/ReportProblem';
+import blockchainFunctions from '../../../../backend/index';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import messages from './messages';
@@ -49,10 +50,13 @@ const styles = theme => ({
     opacity: 0,
     fontSize: '2rem',
   },
-  itemStatusVerified: {
+  textSuccess: {
     color: '#279f27',
   },
-  itemStatusUnverified: {
+  textError: {
+    color: '#dd0909',
+  },
+  textWarning: {
     color: '#cc7000',
   },
   itemStatusShowAnimation: {
@@ -71,6 +75,7 @@ const transparentPng = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCA
 
 const STATUS_VERIFIED = 1;
 const STATUS_UNVERIFIED = 2;
+const STATUS_VOID = 3;
 
 /* eslint-disable react/prefer-stateless-function */
 export class LookupItemPage extends React.Component {
@@ -94,23 +99,25 @@ export class LookupItemPage extends React.Component {
         itemVerifiedStatus: null,
       });
 
-      const item = {
-        ownerAddress: '123',
-        name: 'iPhone X',
-        description: '64GB Grey',
-      };
+      const item = blockchainFunctions.getItemById(value);
+      console.log('item', item);
 
-      setTimeout(() => {
-      // fetch('https://chashmeetsingh.lib.id/@dev/chashmeetsingh/getmanufacturer?id=' + item.ownerAddress)
-        // .then((res) => res.json())
-        // .then((body) => {
-          // const manufacturer = body.data;
-          // const manufacturer = null;
-          const manufacturer = {
-            name: 'Apple Inc.',
-            address: 'Apple Headquarters 1 Infinite Loop Cupertino, CA 95014',
-            logo: 'https://www.apple.com/ac/structured-data/images/knowledge_graph_logo.png',
-          };
+      if (!item) {
+        this.setState({
+          itemId: null,
+          item: null,
+          isLoading: false,
+          itemVerifiedStatus: STATUS_VOID,
+        });
+        return;
+      }
+
+      // setTimeout(() => {
+      fetch('https://chashmeetsingh.lib.id/project@release/read/?public_token=' + item.owner)
+        .then((res) => res.json())
+        .then((body) => {
+          const manufacturer = body.data;
+          console.log('manufacturer', manufacturer);
 
           item.manufacturer = manufacturer;
 
@@ -137,8 +144,8 @@ export class LookupItemPage extends React.Component {
               });
             }, 400);
           }, 1200);
-        // })
-      }, 1500);
+        });
+      // }, 1500);
     }
   }
 
@@ -203,7 +210,7 @@ export class LookupItemPage extends React.Component {
 
                       {itemVerifiedStatus === STATUS_VERIFIED && (
                         <VerifiedIcon
-                          className={classes.itemStatusVerified}
+                          className={classes.textSuccess}
                           style={{ float: 'right' }}
                         />
                       )}
@@ -224,20 +231,20 @@ export class LookupItemPage extends React.Component {
 
                   {itemVerifiedStatus === STATUS_UNVERIFIED && (
                     <UnverifiedIcon
-                      className={classes.itemStatusUnverified}
+                      className={classes.textWarning}
                       style={{ float: 'right' }}
                     />
                   )}
                 </Typography>
 
                 {itemVerifiedStatus === STATUS_VERIFIED && (
-                  <p className={classes.textContainer + ' ' + classes.itemStatusVerified}>
+                  <p className={classes.textContainer + ' ' + classes.textSuccess}>
                     Manufacturer of this item is verified.
                   </p>
                 )}
 
                 {itemVerifiedStatus === STATUS_UNVERIFIED && (
-                  <p className={classes.textContainer + ' ' + classes.itemStatusUnverified}>
+                  <p className={classes.textContainer + ' ' + classes.textWarning}>
                     <strong>Beware!</strong> Manufacturer of this item is not
                     verified.
                   </p>
@@ -259,7 +266,7 @@ export class LookupItemPage extends React.Component {
                   <VerifiedIcon
                     className={
                       classes.itemStatus + ' ' +
-                      classes.itemStatusVerified + ' ' +
+                      classes.textSuccess + ' ' +
                       (qrcodeShowStatus ? classes.itemStatusShowAnimation : '')
                     }
                   />
@@ -269,7 +276,7 @@ export class LookupItemPage extends React.Component {
                   <UnverifiedIcon
                     className={
                       classes.itemStatus + ' ' +
-                      classes.itemStatusUnverified + ' ' +
+                      classes.textWarning + ' ' +
                       (qrcodeShowStatus ? classes.itemStatusShowAnimation : '')
                     }
                   />
@@ -287,6 +294,11 @@ export class LookupItemPage extends React.Component {
           </div>
         )}
 
+        {itemVerifiedStatus === STATUS_VOID && (
+          <p className={classes.textContainer + ' ' + classes.textError}>
+            Item is not registered on the blockchain.
+          </p>
+        )}
       </div>
     );
   }
