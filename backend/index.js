@@ -20,14 +20,23 @@ var bytecode = cjson['bytecode'];
 // var contract = new web3.eth.contract(abi, contractAddress);
 const contract = web3.eth.contract(abi);
 const contractInstance = contract.at(contractAddress);
-contractInstance.mint(0x85e11424F055d2322f0F57493B51082aFB70BfeA, 10, "yoooo",
-  "Hello", {
-    from: web3.eth.accounts[0],
-    gas: 3000000
-  });
-//contractInstance.mint('0x85e11424F055d2322f0F57493B51082aFB70BfeA',1, "Shiv", "Hello"){from: web3.eth.accounts[0], gas: 3000000, value: 100}, function(err, res){});
-// contractInstance.mint('0x85e11424F055d2322f0F57493B51082aFB70BfeA',1, "Shiv", "Hello");
-console.log(contractInstance.returnInformation(10));
+
+function mintToken(addressTo, uid, name, description) {
+  console.log(contractInstance.mint(addressTo, uid, name,
+    description, {
+      from: web3.eth.accounts[0],
+      gas: 3000000
+    }));
+}
+
+//mintToken(0x85e11424F055d2322f0F57493B51082aFB70BfeA, 11, "yoooo",
+//"Hello");
+
+
+
+function getInfoById(id) {
+  console.log(contractInstance.returnInformation(id));
+}
 
 // function mint(address _to, uint uid, string name, string description) public payable {
 //        require(msg.sender == owner);
